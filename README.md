@@ -5,7 +5,7 @@ de javascript y como este puede afectar nuestra UI y dar una mala impresión a n
 
 ## Escenarios
 
-En este ejercicio lo que hacemos es ejecutar la Sucesión de Fibonacci donde el usuario puede interactuar y agregar hasta que siclo quiere
+En este ejercicio lo que hacemos es ejecutar la Sucesión de Fibonacci donde el usuario puede interactuar y agregar hasta que ciclo quiere
 que se ejecute esta función
 
 ### Con Worker
