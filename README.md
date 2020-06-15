@@ -23,6 +23,6 @@ Al ejecutar la función sin workers enviamos el numero **5000** pero en este cas
 
 ## Conclusión
 
-Los services worker son poderosos cuando queremos hacer procesos pesados en el cliente y queremos que nuestra UI no se vea afectada por esto, es importante aclarar que debemos tener presente cuando si o si debemos usar esta tecnología, ya que esta genera un nuevo hilo de ejecución y si abrimos demasiados puede que afecte de igual forma.
+Los web worker son poderosos cuando queremos hacer procesos pesados en el cliente y queremos que nuestra UI no se vea afectada por esto, es importante aclarar que debemos tener presente cuando si o si debemos usar esta tecnología, ya que esta genera un nuevo hilo de ejecución y si abrimos demasiados puede que afecte de igual forma.
 
 esto lo veremos en otro ejemplo a futuro.
