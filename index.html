@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input,
+        select,
+        button {
+            display: block;
+            margin: 15px 0;
+        }
+
+
+
+        .lds-ring {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .lds-ring div {
+            box-sizing: border-box;
+            display: block;
+            position: absolute;
+            width: 64px;
+            height: 64px;
+            margin: 8px;
+            border: 8px solid #000;
+            border-radius: 50%;
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #000 transparent transparent transparent;
+        }
+
+        .lds-ring div:nth-child(1) {
+            animation-delay: -0.45s;
+        }
+
+        .lds-ring div:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+
+        .lds-ring div:nth-child(3) {
+            animation-delay: -0.15s;
+        }
+
+        @keyframes lds-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+
+</head>
+
+<body>
+    <label for="">se va a crear una estructura fionachi</label>
+    <input id="number" type="number" value="">
+    <!-- <select id="operator">
+        <option value="+">Sumar</option>
+        <option value="-">Restar</option>
+        <option value="/">Dividir</option>
+        <option value="*">Multiplicar</option>
+    </select> -->
+
+    <button type="button" onclick="operationWithWorker()">validar con worker</button>
+    <button type="button" onclick="operationWithoutWorker()">validar sin worker</button>
+
+    <div id="spinner" class="lds-ring hide">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <script>
+        const worker = new Worker('./worker.js');
+
+        const spinner = document.querySelector('#spinner');
+
+        const operationWithWorker = () => {
+            toogleSpinner();
+
+            let input = document.querySelector('#number');
+            // let operator = document.querySelector('#operator').value;
+            let value = parseInt(input.value);
+
+            worker.postMessage({
+                number: value
+            });
+        }
+
+        const operationWithoutWorker = async () => {
+            toogleSpinner();
+            let input = document.querySelector('#number');
+            let value = parseInt(input.value);
+
+            const result = await fibonacci(value);
+            console.log(result);
+
+            toogleSpinner();
+        }
+
+        const fibonacci = (number) => {
+
+            return new Promise((resolve, reject) => {
+                let values = [0, 1];
+
+                for (let i = 0; i < number; i++) {
+                    const numbers = Object.assign([], values);
+                    const value = numbers.reverse().slice(0, 2).reduce((a, b) => a + b);
+                    values.push(value);
+                }
+
+                resolve(values);
+            })
+
+        }
+
+        const toogleSpinner = () => {
+            if (spinner.classList.contains('hide')) {
+                spinner.classList.remove('hide');
+            } else {
+                spinner.classList.add('hide');
+            }
+        }
+
+        worker.onmessage = (e) => {
+            console.log(`resultado es: ${e.data}`);
+            toogleSpinner();
+        }
+    </script>
+</body>
+
+</html>
