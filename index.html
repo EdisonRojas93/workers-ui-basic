@@ -77,6 +77,7 @@
     <button type="button" onclick="operationWithWorker()">validar con worker</button>
     <button type="button" onclick="operationWithoutWorker()">validar sin worker</button>
 
+    <div id="result"></div>
     <div id="spinner" class="lds-ring hide">
         <div></div>
         <div></div>
@@ -86,10 +87,11 @@
 
     <script>
         const worker = new Worker('./worker.js');
-
         const spinner = document.querySelector('#spinner');
+        const showResult = document.querySelector('#result');
 
         const operationWithWorker = () => {
+            showResult.innerHTML = '';
             toogleSpinner();
 
             let input = document.querySelector('#number');
@@ -102,11 +104,13 @@
         }
 
         const operationWithoutWorker = async () => {
+            showResult.innerHTML = '';
             toogleSpinner();
             let input = document.querySelector('#number');
             let value = parseInt(input.value);
 
             const result = await fibonacci(value);
+            showResult.innerHTML = result;
             console.log(result);
 
             toogleSpinner();
@@ -137,6 +141,7 @@
         }
 
         worker.onmessage = (e) => {
+            showResult.innerHTML = e.data;
             console.log(`resultado es: ${e.data}`);
             toogleSpinner();
         }
